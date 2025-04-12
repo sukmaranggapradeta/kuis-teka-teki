@@ -48,7 +48,6 @@ export default function QuizApp() {
   const [timerActive, setTimerActive] = useState<boolean>(false);
   const [hasAnswered, setHasAnswered] = useState(false);
 
-  const [messageApi] = message.useMessage();
   const ADMIN_NAME = "sukma-rangga-admin-dayalima";
 
   const questions: Question[] = [
