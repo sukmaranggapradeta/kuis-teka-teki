@@ -1,8 +1,6 @@
-import type { NextConfig } from "next";
+const withTM = require('next-transpile-modules')(['rc-util']);
 
-const nextConfig: NextConfig = {
-  /* config options here */
+module.exports = withTM({
   reactStrictMode: true,
-};
-
-export default nextConfig;
+  swcMinify: true,  // Optional: pastikan SWC aktif untuk optimasi build
+});
