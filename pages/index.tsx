@@ -44,9 +44,10 @@ export default function QuizApp() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [canAnswer, setCanAnswer] = useState<boolean>(false);
 //   const [showLeaderboard, setShowLeaderboard] = useState<boolean>(true);
-  const [timeLeft, setTimeLeft] = useState<number>(30);
+  const [timeLeft, setTimeLeft] = useState<number>(35);
   const [timerActive, setTimerActive] = useState<boolean>(false);
   // const [hasAnswered, setHasAnswered] = useState(false);
+  const [quizStarted, setQuizStarted] = useState<boolean>(false);
 
   const ADMIN_NAME = "sukma-rangga-admin-dayalima";
 
@@ -58,7 +59,7 @@ export default function QuizApp() {
       image: "/images/masalah-di-hutan.png", // URL gambar
     },
     {
-      question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
+      question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. <br>Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
       options: ["Mark", "James","Keduanya"],
       answer: "James",
       image: "/images/masalah-di-loteng.png", // URL gambar
@@ -70,28 +71,28 @@ export default function QuizApp() {
       image: "/images/peta-harta-karun.png", // URL gambar
     },
     {
-      question: "Kamu diculik dan disekap di dalam sebuah rumah batu. Di sana ada empat pintu yang bisa kamu pilih untuk melarikan diri. Tapi masing-masing pintu punya bahaya mematikan:<br>",
+      question: "Kamu diculik dan disekap di dalam sebuah rumah batu.  <br>Di sana ada empat pintu yang bisa kamu pilih untuk melarikan diri. <br> Tapi masing-masing pintu punya bahaya mematikan<br> Pintu mana yang kamu pilih?",
       options: ["Pintu yang menuju ruang es beku — kamu akan membeku dalam hitungan detik.", "Pintu yang berisi tangki penuh hiu-hiu lapar.","Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.","pintu berisi gas beracun yang tidak memungkinkan untuk bernapas"],
       answer: "Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.",
       image: "/images/pintu-batu.png", // URL gambar
     },
     {
-      question: "Saat berlibur di hutan, Kamu ditangkap oleh suku lokal. Ia diikat dan diberi pilihan yang mengerikan: akan dijatuhkan ke salah satu dari tiga lubang maut. <br>Hanya satu pilihan yang bisa menyelamatkan nyawanya. Lubang mana yang harus kamu pilih?",
-      options: ["Lubang pertama dipenuhi zombie.", "Lubang kedua menyala dengan kobaran api.","Lubang ketiga dipenuhi tumbuhan karnivora."],
-      answer: "Lubang ketiga dipenuhi tumbuhan karnivora.",
-      image: "/images/pintu-batu.png", // URL gambar
+      question: "Saat berlibur di hutan, Kamu ditangkap oleh suku lokal.  <br>Kamu diikat dan diberi pilihan yang mengerikan:  <br>akan dijatuhkan ke salah satu dari tiga lubang maut. <br>Hanya satu pilihan yang bisa menyelamatkan nyawanya. <br>Lubang mana yang harus kamu pilih?",
+      options: ["Lubang dipenuhi zombie.", "Lubang dengan kobaran api.","Lubang dipenuhi tumbuhan karnivora."],
+      answer: "Lubang dipenuhi tumbuhan karnivora.",
+      image: "/images/lubang-maut.jpeg", // URL gambar
     },
     {
-      question: "Bayangkan kamu adalah seorang pengembara.<br>Kamu sudah berjalan seharian di tengah gurun, tanpa setetes air pun. Kakimu lelah, tenggorokan kering, dan mata mulai kabur karena panas.<br>Kamu memanjat bukit kecil dan melihat tiga danau di kejauhan.<br>Semua terlihat menjanjikan. Tapi… hanya satu yang asli.",
+      question: "Bayangkan kamu adalah seorang pengembara.<br>Kamu sudah berjalan seharian di tengah gurun, tanpa setetes air pun. <br>Kakimu lelah, tenggorokan kering, dan mata mulai kabur karena panas.<br>Kamu memanjat bukit kecil dan melihat tiga danau di kejauhan.<br>Semua terlihat menjanjikan. Tapi… hanya satu yang asli.",
       options: ["Danau 1","Danau 2","Danau 3"],
       answer: "Danau 3",
-      image: "/images/pintu-batu.png", // URL gambar
+      image: "/images/danau-fatamorgana.png", // URL gambar
     },
     {
-      question: "Seorang pria kaya pergi ke sebuah pameran seni modern. Ia berniat membeli sebuah lukisan untuk koleksinya. Pemilik pameran menunjukkan tiga karya dari seniman yang berbeda.<br>Sang kolektor yakin bahwa salah satu lukisan itu palsu.<br>Lukisan mana yang menurutmu palsu?",
-      options: ["Lukisan pertama: Sebuah segitiga hijau dengan bunga matahari di tengahnya.","Lukisan kedua: Seorang singa yang sedang selfie menggunakan HP","Lukisan ketiga: Sebuah rumah terbang di udara"],
-      answer: "Lukisan kedua: Seorang singa yang sedang selfie menggunakan HP",
-      image: "/images/pintu-batu.png", // URL gambar
+      question: "Seorang pria kaya pergi ke sebuah pameran seni modern. <br> Ia berniat membeli sebuah lukisan untuk koleksinya. <br> Pemilik pameran menunjukkan tiga karya dari seniman yang berbeda.<br>Sang kolektor yakin bahwa salah satu lukisan itu palsu.<br>Lukisan mana yang menurutmu palsu?",
+      options: ["Lukisan pertama: Sebuah segitiga hijau dengan bunga matahari di tengahnya.","Lukisan kedua: Seekor singa yang sedang selfie menggunakan HP","Lukisan ketiga: Sebuah rumah terbang di udara"],
+      answer: "Lukisan kedua: Seekor singa yang sedang selfie menggunakan HP",
+      image: "/images/lukisan-palsu.jpeg", // URL gambar
     },
     {
       question: "Tombol mana yang kamu pilih?",
@@ -143,7 +144,7 @@ export default function QuizApp() {
         setQuestionIndex(data.currentQuestionIndex);
         setCanAnswer(data.quizStarted);
         if (data.quizStarted) {
-          setTimeLeft(30);
+          setTimeLeft(35);
           setTimerActive(true);
         }
         
@@ -192,7 +193,7 @@ export default function QuizApp() {
     if (data && data.quizStarted && !isAdmin) {
       setQuestionIndex(data.currentQuestionIndex);
       setCanAnswer(true);
-      setTimeLeft(30);
+      setTimeLeft(35);
       setTimerActive(true);
     }
   };
@@ -267,6 +268,30 @@ export default function QuizApp() {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "quizState", "status"), (docSnap) => {
+      const data = docSnap.data();
+      if (data) {
+        setQuestionIndex(data.currentQuestionIndex);
+        setQuizStarted(data.quizStarted); // Tambahkan ini
+        if (data.quizStarted) {
+          setTimeLeft(35);
+          setTimerActive(true);
+        }
+  
+        if (!isAdmin) {
+          setCanAnswer(data.quizStarted);
+        }
+      } else {
+        setDoc(doc(db, "quizState", "status"), {
+          quizStarted: false,
+          currentQuestionIndex: 0,
+        });
+      }
+    });
+    return () => unsubscribe();
+  }, [isAdmin]);
+
   if (!hasJoined) {
     return (
       <Card style={{ maxWidth: 480, margin: "2rem auto" }}>
@@ -313,7 +338,7 @@ export default function QuizApp() {
           </Button>
         </Space>
       )}
-{questions[questionIndex] && (
+{questions[questionIndex] && quizStarted  && (
   <div style={{ marginTop: 24 }}>
     <Title level={4}>
       <span
@@ -330,7 +355,7 @@ export default function QuizApp() {
     )}
 
     <Progress
-      percent={(timeLeft / 40) * 100}
+      percent={(timeLeft / 35) * 100}
       format={() => `${timeLeft}s`}
       showInfo
     />
@@ -370,7 +395,11 @@ export default function QuizApp() {
   </div>
 )}
 
-
+{!quizStarted && (
+  <Text type="secondary" style={{ marginTop: 16, display: "block" }}>
+    Kuis belum dimulai.
+  </Text>
+)}
         <div style={{ marginTop: 32 }}>
           <Title level={4}>Leaderboard</Title>
           <List
