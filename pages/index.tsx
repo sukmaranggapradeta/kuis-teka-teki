@@ -312,7 +312,7 @@ export default function QuizApp() {
     return (
       <Card style={{ maxWidth: 480, margin: "2rem auto" }}>
         <Space direction="vertical" style={{ width: "100%" }}>
-          <Title level={4}>Masukkan Nama untuk Masuk ke Room</Title>
+          <Title level={4}>Masukkan Nama</Title>
           <Input
             placeholder="Nama"
             value={name}
@@ -347,7 +347,7 @@ export default function QuizApp() {
             Mulai Kuis
           </Button>
           <Button type="primary" block onClick={resetQuiz}>
-            RESET Kuis
+            Reset Kuis
           </Button>
           <Button type="dashed" block onClick={nextQuestion}>
             Soal Selanjutnya
