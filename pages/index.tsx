@@ -46,7 +46,7 @@ export default function QuizApp() {
 //   const [showLeaderboard, setShowLeaderboard] = useState<boolean>(true);
   const [timeLeft, setTimeLeft] = useState<number>(30);
   const [timerActive, setTimerActive] = useState<boolean>(false);
-  const [hasAnswered, setHasAnswered] = useState(false);
+  // const [hasAnswered, setHasAnswered] = useState(false);
 
   const ADMIN_NAME = "sukma-rangga-admin-dayalima";
 
@@ -127,7 +127,7 @@ export default function QuizApp() {
        
       setCanAnswer(false);
       setTimerActive(false);
-      setHasAnswered(true);
+      // setHasAnswered(true);
       return;
     }
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
@@ -176,13 +176,13 @@ export default function QuizApp() {
   const handleAnswer = async () => {
     if (!canAnswer || !selectedOption || isAdmin) return;
   
-    setHasAnswered(true);
+    // setHasAnswered(true);
 
-    let additionalScore = Math.ceil(timeLeft / 3); // Setiap 3 detik tersisa, tambah 1 poin
+    // let additionalScore = Math.ceil(timeLeft / 3); // Setiap 3 detik tersisa, tambah 1 poin
     let totalScore = score;
   
     if (selectedOption === questions[questionIndex].answer) {
-      totalScore += 10 + additionalScore;
+      totalScore += 10 + Math.ceil(timeLeft / 3);
       setScore(totalScore);
       await updateDoc(doc(db, "leaderboard", name), {
         score: totalScore,
