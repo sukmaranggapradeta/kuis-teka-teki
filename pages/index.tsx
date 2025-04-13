@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase/firebase";
 import {
@@ -63,7 +64,7 @@ export default function QuizApp() {
       options: ["Kaktus berair", "Sebuah kolam air laut asin", "Sebuah danau yang tenang dan bening", "Anak sungai yang ada endapannya"],
       answer: "Anak sungai yang ada endapannya",
       image: "/images/masalah-di-hutan.png", // URL gambar
-      timeLimit:40,
+      timeLimit:30,
     },
     {
       question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. <br>Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
@@ -84,18 +85,21 @@ export default function QuizApp() {
       options: ["Pintu yang menuju ruang es beku — kamu akan membeku dalam hitungan detik.", "Pintu yang berisi tangki penuh hiu-hiu lapar.","Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.","pintu berisi gas beracun yang tidak memungkinkan untuk bernapas"],
       answer: "Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.",
       image: "/images/pintu-batu.png", // URL gambar
+      timeLimit:30,
     },
     {
       question: "Saat berlibur di hutan, Kamu ditangkap oleh suku lokal.  <br>Kamu diikat dan diberi pilihan yang mengerikan:  <br>akan dijatuhkan ke salah satu dari tiga lubang maut. <br>Hanya satu pilihan yang bisa menyelamatkan nyawanya. <br>Lubang mana yang harus kamu pilih?",
       options: ["Lubang dipenuhi zombie.", "Lubang dengan kobaran api.","Lubang dipenuhi tumbuhan karnivora."],
       answer: "Lubang dipenuhi tumbuhan karnivora.",
       image: "/images/lubang-maut.jpeg", // URL gambar
+      timeLimit:30,
     },
     {
       question: "Bayangkan kamu adalah seorang pengembara.<br>Kamu sudah berjalan seharian di tengah gurun, tanpa setetes air pun. <br>Kakimu lelah, tenggorokan kering, dan mata mulai kabur karena panas.<br>Kamu memanjat bukit kecil dan melihat tiga danau di kejauhan.<br>Semua terlihat menjanjikan. Tapi… hanya satu yang asli.",
       options: ["Danau 1","Danau 2","Danau 3"],
       answer: "Danau 3",
       image: "/images/danau-fatamorgana.png", // URL gambar
+      timeLimit:30,
     },
     {
       question: "Seorang pria kaya pergi ke sebuah pameran seni modern. <br> Ia berniat membeli sebuah lukisan untuk koleksinya. <br> Pemilik pameran menunjukkan tiga karya dari seniman yang berbeda.<br>Sang kolektor yakin bahwa salah satu lukisan itu palsu.<br>Lukisan mana yang menurutmu palsu?",
@@ -107,7 +111,7 @@ export default function QuizApp() {
     {
       question: "Tombol mana yang kamu pilih?",
       options: ["Merah","Ungu","Kuning"],
-      answer: "",
+      answer: "Ungu",
       image: "/images/tombol-rahasia.jpeg", // URL gambar
       timeLimit:25,
     },
@@ -231,8 +235,6 @@ export default function QuizApp() {
 
   const handleAnswer = async () => {
     if (!canAnswer || !selectedOption || isAdmin) return;
-  
-    // setHasAnswered(true);
 
     // let additionalScore = Math.ceil(timeLeft / 3); // Setiap 3 detik tersisa, tambah 1 poin
     let totalScore = score;
@@ -307,6 +309,8 @@ export default function QuizApp() {
     });
     return () => unsubscribe();
   }, [isAdmin]);
+
+  
   const currentTimeLimit = questions[questionIndex]?.timeLimit || 30
   if (!hasJoined) {
     return (
@@ -388,8 +392,9 @@ export default function QuizApp() {
 
           return (
             <Button
+            block
               key={idx}
-              block
+               style={{ whiteSpace: "normal", wordBreak: "break-word", height: "auto", padding: "8px 16px"}}
               type={type}
               disabled={!canAnswer} // tetap disable saat waktu habis
               onClick={() => setSelectedOption(opt)}
@@ -416,6 +421,7 @@ export default function QuizApp() {
     Kuis belum dimulai.
   </Text>
 )}
+
         <div style={{ marginTop: 32 }}>
           <Title level={4}>Leaderboard</Title>
           <List
