@@ -27,6 +27,7 @@ interface Question {
   options: string[];
   answer: string;
   image?: string; // Tambahkan properti image
+  timeLimit?: number; // opsional
 }
 
 interface LeaderboardEntry {
@@ -51,24 +52,32 @@ export default function QuizApp() {
 
   const ADMIN_NAME = "sukma-rangga-admin-dayalima";
 
+  const playBeep = () => {
+    const audio = new Audio("/sounds/beep-sound-8333.mp3");
+    audio.play();
+  };
+
   const questions: Question[] = [
     {
       question: "Kamu sedang dalam perjalanan melintasi hutan sendirian. <br>Suatu pagi, kamu mendapati bahwa kamu hampir kehabisan air. <br> Kamu bisa mendapat tambahan air dari salah satu dari 4 sumber air: <br>Sumber air mana yang akan kamu pilih untuk mengisi botol minum penyaring airmu?",
       options: ["Kaktus berair", "Sebuah kolam air laut asin", "Sebuah danau yang tenang dan bening", "Anak sungai yang ada endapannya"],
       answer: "Anak sungai yang ada endapannya",
       image: "/images/masalah-di-hutan.png", // URL gambar
+      timeLimit:40,
     },
     {
       question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. <br>Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
       options: ["Mark", "James","Keduanya"],
       answer: "James",
       image: "/images/masalah-di-loteng.png", // URL gambar
+      timeLimit:30,
     },
     {
       question: "Seorang pemburu harta karun tersesat di dalam hutan. <br>Setelah berjalan cukup lama, ia tiba di sebuah persimpangan jalan. <br>Di tengah persimpangan itu ada sebuah batu besar dengan tulisan aneh:<br> “4 + no5” <br> Pemburu itu tahu, arah jalan yang benar tersembunyi dalam tulisan tersebut.<br>Menurutmu, ke arah mana seharusnya ia berjalan?",
       options: ["North", "South","East","West"],
       answer: "South",
       image: "/images/peta-harta-karun.png", // URL gambar
+      timeLimit:30,
     },
     {
       question: "Kamu diculik dan disekap di dalam sebuah rumah batu.  <br>Di sana ada empat pintu yang bisa kamu pilih untuk melarikan diri. <br> Tapi masing-masing pintu punya bahaya mematikan<br> Pintu mana yang kamu pilih?",
@@ -93,24 +102,28 @@ export default function QuizApp() {
       options: ["Lukisan pertama: Sebuah segitiga hijau dengan bunga matahari di tengahnya.","Lukisan kedua: Seekor singa yang sedang selfie menggunakan HP","Lukisan ketiga: Sebuah rumah terbang di udara"],
       answer: "Lukisan kedua: Seekor singa yang sedang selfie menggunakan HP",
       image: "/images/lukisan-palsu.jpeg", // URL gambar
+      timeLimit:40,
     },
     {
       question: "Tombol mana yang kamu pilih?",
       options: ["Merah","Ungu","Kuning"],
       answer: "",
       image: "/images/tombol-rahasia.jpeg", // URL gambar
+      timeLimit:25,
     },
     {
       question: "Kotak mana yang lebih besar",
       options: ["Putih","Kuning","Hitam","Hijau"],
       answer: "Hijau",
       image: "/images/kotak-terbesar.jpeg", // URL gambar
+      timeLimit:20,
     },
     {
       question: "Rute jalan manakah yang benar",
       options: ["Rute A","Rute B","Rute C","Rute D"],
       answer: "Rute B",
       image: "/images/jalur-labirin.jpeg", // URL gambar
+      timeLimit:20,
     },
 
   ];
@@ -170,7 +183,10 @@ export default function QuizApp() {
       // setHasAnswered(true);
       return;
     }
-    const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
+    const timer = setTimeout(() => {
+      if (timeLeft <= 10) playBeep();
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [timeLeft, timerActive]);
 
@@ -291,7 +307,7 @@ export default function QuizApp() {
     });
     return () => unsubscribe();
   }, [isAdmin]);
-
+  const currentTimeLimit = questions[questionIndex]?.timeLimit || 30
   if (!hasJoined) {
     return (
       <Card style={{ maxWidth: 480, margin: "2rem auto" }}>
@@ -355,7 +371,7 @@ export default function QuizApp() {
     )}
 
     <Progress
-      percent={(timeLeft / 35) * 100}
+      percent={(timeLeft / currentTimeLimit) * 100}
       format={() => `${timeLeft}s`}
       showInfo
     />
