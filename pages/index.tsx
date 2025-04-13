@@ -204,6 +204,15 @@ export default function QuizApp() {
     }
   };
 
+  const resetQuiz = async () => {
+    if (isAdmin) {
+      await setDoc(doc(db, "quizState", "status"), {
+        quizStarted: false,
+        currentQuestionIndex: 0,
+      });
+    }
+  };
+
   const nextQuestion = async () => {
     if (isAdmin && questionIndex + 1 < questions.length) {
       await updateDoc(doc(db, "quizState", "status"), {
@@ -262,8 +271,12 @@ export default function QuizApp() {
 
       {isAdmin && (
         <Space direction="vertical" style={{ marginTop: 20, width: "100%" }}>
+
           <Button type="primary" block onClick={startQuiz}>
             Mulai Kuis
+          </Button>
+          <Button type="primary" block onClick={resetQuiz}>
+            RESET Kuis
           </Button>
           <Button type="dashed" block onClick={nextQuestion}>
             Soal Selanjutnya
@@ -271,7 +284,7 @@ export default function QuizApp() {
         </Space>
       )}
 
-{questions[questionIndex] && (
+{questions[questionIndex] &&canAnswer && (
   <div style={{ marginTop: 24 }}>
     <Title level={4}>
       <span dangerouslySetInnerHTML={{__html: questions[questionIndex].question}}></span>
@@ -292,9 +305,9 @@ export default function QuizApp() {
       <Space direction="vertical" style={{ width: "100%" }}>
  {questions[questionIndex].options.map((opt, idx) => {
   // const isCorrect = opt === questions[questionIndex].answer;
-  // const isSelected = selectedOption === opt;
+  const isSelected = selectedOption === opt;
 
-  // let type: "default" | "primary" | "dashed" | "link" | "text" | "ghost" = "default";
+  let type: "default" | "primary" | "dashed" | "link" | "text" | "ghost" = "default";
   // let danger = false;
 
   // if (hasAnswered) {
@@ -303,15 +316,16 @@ export default function QuizApp() {
   //   } else if (isSelected && !isCorrect) {
   //     danger = true; // jawaban salah yg dipilih user ditandai merah
   //   }
-  // } else if (isSelected) {
-  //   type = "primary";
-  // }
+  // } else 
+   if (isSelected) {
+     type = "primary";
+   }
 
   return (
     <Button
       key={idx}
       block
-      type={"default"}
+      type={type}
       // danger={danger}
       disabled={!canAnswer}
       onClick={() => setSelectedOption(opt)}
