@@ -58,9 +58,9 @@ export default function QuizApp() {
       image: "/images/masalah-di-hutan.png", // URL gambar
     },
     {
-      question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. Namun hanya satu dari mereka yang mencuci muka.<br>Siapa yang mencuci muka?",
+      question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
       options: ["Mark", "James","Keduanya"],
-      answer: "Mark",
+      answer: "James",
       image: "/images/masalah-di-loteng.png", // URL gambar
     },
     {
@@ -70,11 +70,48 @@ export default function QuizApp() {
       image: "/images/peta-harta-karun.png", // URL gambar
     },
     {
-      question: "Kamu diculik dan disekap di dalam sebuah rumah batu. Di sana ada empat pintu yang bisa kamu pilih untuk melarikan diri. Tapi masing-masing pintu punya bahaya mematikan: <br>Pintu yang menuju ruang es beku — kamu akan membeku dalam hitungan detik.<br>Pintu yang berisi tangki penuh hiu-hiu lapar.<br>Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.<br>pintu berisi gas beracun yang tidak memungkinkan untuk bernapas",
-      options: ["Pintu 1", "Pintu 2","Pintu 3","Pintu 4"],
-      answer: "Pintu 3",
+      question: "Kamu diculik dan disekap di dalam sebuah rumah batu. Di sana ada empat pintu yang bisa kamu pilih untuk melarikan diri. Tapi masing-masing pintu punya bahaya mematikan:<br>",
+      options: ["Pintu yang menuju ruang es beku — kamu akan membeku dalam hitungan detik.", "Pintu yang berisi tangki penuh hiu-hiu lapar.","Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.","pintu berisi gas beracun yang tidak memungkinkan untuk bernapas"],
+      answer: "Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.",
       image: "/images/pintu-batu.png", // URL gambar
     },
+    {
+      question: "Saat berlibur di hutan, Kamu ditangkap oleh suku lokal. Ia diikat dan diberi pilihan yang mengerikan: akan dijatuhkan ke salah satu dari tiga lubang maut. <br>Hanya satu pilihan yang bisa menyelamatkan nyawanya. Lubang mana yang harus kamu pilih?",
+      options: ["Lubang pertama dipenuhi zombie.", "Lubang kedua menyala dengan kobaran api.","Lubang ketiga dipenuhi tumbuhan karnivora."],
+      answer: "Lubang ketiga dipenuhi tumbuhan karnivora.",
+      image: "/images/pintu-batu.png", // URL gambar
+    },
+    {
+      question: "Bayangkan kamu adalah seorang pengembara.<br>Kamu sudah berjalan seharian di tengah gurun, tanpa setetes air pun. Kakimu lelah, tenggorokan kering, dan mata mulai kabur karena panas.<br>Kamu memanjat bukit kecil dan melihat tiga danau di kejauhan.<br>Semua terlihat menjanjikan. Tapi… hanya satu yang asli.",
+      options: ["Danau 1","Danau 2","Danau 3"],
+      answer: "Danau 3",
+      image: "/images/pintu-batu.png", // URL gambar
+    },
+    {
+      question: "Seorang pria kaya pergi ke sebuah pameran seni modern. Ia berniat membeli sebuah lukisan untuk koleksinya. Pemilik pameran menunjukkan tiga karya dari seniman yang berbeda.<br>Sang kolektor yakin bahwa salah satu lukisan itu palsu.<br>Lukisan mana yang menurutmu palsu?",
+      options: ["Lukisan pertama: Sebuah segitiga hijau dengan bunga matahari di tengahnya.","Lukisan kedua: Seorang singa yang sedang selfie menggunakan HP","Lukisan ketiga: Sebuah rumah terbang di udara"],
+      answer: "Lukisan kedua: Seorang singa yang sedang selfie menggunakan HP",
+      image: "/images/pintu-batu.png", // URL gambar
+    },
+    {
+      question: "Tombol mana yang kamu pilih?",
+      options: ["Merah","Ungu","Kuning"],
+      answer: "",
+      image: "/images/tombol-rahasia.jpeg", // URL gambar
+    },
+    {
+      question: "Kotak mana yang lebih besar",
+      options: ["Putih","Kuning","Hitam","Hijau"],
+      answer: "Hijau",
+      image: "/images/kotak-terbesar.jpeg", // URL gambar
+    },
+    {
+      question: "Rute jalan manakah yang benar",
+      options: ["Rute A","Rute B","Rute C","Rute D"],
+      answer: "Rute B",
+      image: "/images/jalur-labirin.jpeg", // URL gambar
+    },
+
   ];
 
   useEffect(() => {
@@ -105,11 +142,13 @@ export default function QuizApp() {
       if (data) {
         setQuestionIndex(data.currentQuestionIndex);
         setCanAnswer(data.quizStarted);
-        if (data.quizStarted && !isAdmin) {
+        if (data.quizStarted) {
           setTimeLeft(30);
           setTimerActive(true);
-        } else {
-          setTimerActive(false);
+        }
+        
+        if (!isAdmin) {
+          setCanAnswer(data.quizStarted);
         }
       } else {
         setDoc(doc(db, "quizState", "status"), {
@@ -249,16 +288,7 @@ export default function QuizApp() {
 
   return (
     <Card style={{ maxWidth: 1024, margin: "2rem auto" }}>
-      {/* <Title level={3}>Peserta Masuk</Title>
-      <List
-        bordered
-        dataSource={leaderboard}
-        renderItem={(entry) => (
-          <List.Item>
-            <Text>{entry.name}</Text>
-          </List.Item>
-        )}
-      /> */}
+
 {
     !isAdmin &&    <Flex gap="middle" justify={"space-between"}>
     <Text strong>Nama Anda: {name}</Text>
@@ -283,12 +313,14 @@ export default function QuizApp() {
           </Button>
         </Space>
       )}
-
-{questions[questionIndex] &&canAnswer && (
+{questions[questionIndex] && (
   <div style={{ marginTop: 24 }}>
     <Title level={4}>
-      <span dangerouslySetInnerHTML={{__html: questions[questionIndex].question}}></span>
-      </Title>
+      <span
+        dangerouslySetInnerHTML={{ __html: questions[questionIndex].question }}
+      ></span>
+    </Title>
+
     {questions[questionIndex].image && (
       <img
         src={questions[questionIndex].image}
@@ -296,44 +328,35 @@ export default function QuizApp() {
         style={{ maxWidth: "100%", marginBottom: "1rem" }}
       />
     )}
+
     <Progress
-      percent={(timeLeft / 30) * 100}
+      percent={(timeLeft / 40) * 100}
       format={() => `${timeLeft}s`}
       showInfo
     />
+
     {!isAdmin && (
       <Space direction="vertical" style={{ width: "100%" }}>
- {questions[questionIndex].options.map((opt, idx) => {
-  // const isCorrect = opt === questions[questionIndex].answer;
-  const isSelected = selectedOption === opt;
+        {questions[questionIndex].options.map((opt, idx) => {
+          const isSelected = selectedOption === opt;
+          let type: "default" | "primary" = "default";
 
-  let type: "default" | "primary" | "dashed" | "link" | "text" | "ghost" = "default";
-  // let danger = false;
+          if (isSelected) {
+            type = "primary";
+          }
 
-  // if (hasAnswered) {
-  //   if (isCorrect) {
-  //     type = "primary"; // jawaban benar ditandai biru
-  //   } else if (isSelected && !isCorrect) {
-  //     danger = true; // jawaban salah yg dipilih user ditandai merah
-  //   }
-  // } else 
-   if (isSelected) {
-     type = "primary";
-   }
-
-  return (
-    <Button
-      key={idx}
-      block
-      type={type}
-      // danger={danger}
-      disabled={!canAnswer}
-      onClick={() => setSelectedOption(opt)}
-    >
-      {opt}
-    </Button>
-  );
-})}
+          return (
+            <Button
+              key={idx}
+              block
+              type={type}
+              disabled={!canAnswer} // tetap disable saat waktu habis
+              onClick={() => setSelectedOption(opt)}
+            >
+              {opt}
+            </Button>
+          );
+        })}
         <Button
           type="primary"
           block
@@ -347,7 +370,7 @@ export default function QuizApp() {
   </div>
 )}
 
-      {/* {showLeaderboard && ( */}
+
         <div style={{ marginTop: 32 }}>
           <Title level={4}>Leaderboard</Title>
           <List
@@ -361,7 +384,6 @@ export default function QuizApp() {
             )}
           />
         </div>
-      {/* )} */}
     </Card>
   );
 }
