@@ -64,14 +64,14 @@ export default function QuizApp() {
       options: ["Kaktus berair", "Sebuah kolam air laut asin", "Sebuah danau yang tenang dan bening", "Anak sungai yang ada endapannya"],
       answer: "Anak sungai yang ada endapannya",
       image: "/images/masalah-di-hutan.png", // URL gambar
-      timeLimit:30,
+      timeLimit:35,
     },
     {
       question: "Mark dan James bermain bersama di loteng yang gelap dan berdebu.<br>Setelah turun, wajah Mark kotor penuh debu, sedangkan wajah James bersih. <br>Namun hanya satu dari mereka yang akan pergi mencuci muka.<br>Siapa yang akan mencuci muka?",
       options: ["Mark", "James","Keduanya"],
       answer: "James",
       image: "/images/masalah-di-loteng.png", // URL gambar
-      timeLimit:30,
+      timeLimit:35,
     },
     {
       question: "Seorang pemburu harta karun tersesat di dalam hutan. <br>Setelah berjalan cukup lama, ia tiba di sebuah persimpangan jalan. <br>Di tengah persimpangan itu ada sebuah batu besar dengan tulisan aneh:<br> “4 + no5” <br> Pemburu itu tahu, arah jalan yang benar tersembunyi dalam tulisan tersebut.<br>Menurutmu, ke arah mana seharusnya ia berjalan?",
@@ -85,14 +85,14 @@ export default function QuizApp() {
       options: ["Pintu yang menuju ruang es beku — kamu akan membeku dalam hitungan detik.", "Pintu yang berisi tangki penuh hiu-hiu lapar.","Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.","pintu berisi gas beracun yang tidak memungkinkan untuk bernapas"],
       answer: "Pintu yang langsung menghadap matahari super panas yang bisa membakar apa pun seketika.",
       image: "/images/pintu-batu.png", // URL gambar
-      timeLimit:30,
+      timeLimit:40,
     },
     {
       question: "Saat berlibur di hutan, Kamu ditangkap oleh suku lokal.  <br>Kamu diikat dan diberi pilihan yang mengerikan:  <br>akan dijatuhkan ke salah satu dari tiga lubang maut. <br>Hanya satu pilihan yang bisa menyelamatkan nyawanya. <br>Lubang mana yang harus kamu pilih?",
       options: ["Lubang dipenuhi zombie.", "Lubang dengan kobaran api.","Lubang dipenuhi tumbuhan karnivora."],
       answer: "Lubang dipenuhi tumbuhan karnivora.",
       image: "/images/lubang-maut.jpeg", // URL gambar
-      timeLimit:30,
+      timeLimit:40,
     },
     {
       question: "Bayangkan kamu adalah seorang pengembara.<br>Kamu sudah berjalan seharian di tengah gurun, tanpa setetes air pun. <br>Kakimu lelah, tenggorokan kering, dan mata mulai kabur karena panas.<br>Kamu memanjat bukit kecil dan melihat tiga danau di kejauhan.<br>Semua terlihat menjanjikan. Tapi… hanya satu yang asli.",
